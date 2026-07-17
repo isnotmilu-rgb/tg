@@ -1,6 +1,7 @@
 import { Activity, TrendingUp, TrendingDown, Truck } from 'lucide-react';
 import { KPIStats, Viaje } from '../../types';
 import { TravelTable } from '../tables/TravelTable';
+import { Tooltip } from '../ui/Tooltip';
 
 interface DashboardSummaryProps {
   stats: KPIStats;
@@ -24,7 +25,9 @@ export function DashboardSummary({ stats, viajesRecientes }: DashboardSummaryPro
           </div>
           <div className="relative z-10">
             <div className="flex justify-between items-start mb-4">
-              <p className="text-sm font-medium text-slate-400">Viajes Activos</p>
+              <Tooltip text="Viajes que se encuentran actualmente en ruta.">
+                <p className="text-sm font-medium text-slate-400">Viajes Activos</p>
+              </Tooltip>
               <div className="p-2 bg-slate-800 rounded-xl">
                 <Activity className="w-5 h-5 text-blue-400" />
               </div>
@@ -35,7 +38,9 @@ export function DashboardSummary({ stats, viajesRecientes }: DashboardSummaryPro
 
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
           <div className="flex justify-between items-start mb-4">
-            <p className="text-sm font-medium text-slate-500">Ingresos del Mes</p>
+            <Tooltip text="Total de dinero facturado en el mes actual.">
+              <p className="text-sm font-medium text-slate-500">Ingresos del Mes</p>
+            </Tooltip>
             <div className="p-2 bg-emerald-50 rounded-xl">
               <TrendingUp className="w-5 h-5 text-emerald-600" />
             </div>
@@ -49,7 +54,9 @@ export function DashboardSummary({ stats, viajesRecientes }: DashboardSummaryPro
 
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
           <div className="flex justify-between items-start mb-4">
-            <p className="text-sm font-medium text-slate-500">Eficiencia de Flota (Gastos)</p>
+            <Tooltip text="Relación entre gastos operativos y rendimiento de los camiones.">
+              <p className="text-sm font-medium text-slate-500">Eficiencia de Flota (Gastos)</p>
+            </Tooltip>
             <div className="p-2 bg-red-50 rounded-xl">
               <TrendingDown className="w-5 h-5 text-red-600" />
             </div>
