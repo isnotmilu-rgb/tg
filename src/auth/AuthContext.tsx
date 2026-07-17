@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 
 type Role = 'admin' | 'chofer';
 
@@ -17,31 +17,11 @@ interface AuthContextValue {
   logout: () => void;
 }
 
-const STORAGE_KEY = 'tg_logistics_auth';
-
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<AuthSession | null>(null);
-  const [isReady, setIsReady] = useState(false);
-
-  useEffect(() => {
-    const raw = localStorage.getItem(STORAGE_KEY);
-
-    if (!raw) {
-      setIsReady(true);
-      return;
-    }
-
-    try {
-      setSession(JSON.parse(raw) as AuthSession);
-    } catch {
-      localStorage.removeItem(STORAGE_KEY);
-    } finally {
-      setIsReady(true);
-    }
-
-  }, []);
+  const [isReady] = useState(true);
 
   const loginAsAdmin = (password: string) => {
     if (password !== '2235') {
@@ -54,7 +34,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
 
     setSession(newSession);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(newSession));
     return true;
   };
 
@@ -66,12 +45,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
 
     setSession(newSession);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(newSession));
   };
 
   const logout = () => {
     setSession(null);
-    localStorage.removeItem(STORAGE_KEY);
   };
 
   const value = useMemo<AuthContextValue>(
