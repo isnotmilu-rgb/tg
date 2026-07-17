@@ -2,7 +2,12 @@ import { LayoutDashboard, Truck, Users, FileText, Settings } from 'lucide-react'
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
 
-export function Sidebar() {
+interface SidebarProps {
+  className?: string;
+  onNavigate?: () => void;
+}
+
+export function Sidebar({ className = '', onNavigate }: SidebarProps) {
   const { session, logout } = useAuth();
   const isAdmin = session?.role === 'admin';
 
@@ -26,7 +31,7 @@ export function Sidebar() {
     .toUpperCase();
 
   return (
-    <aside className="w-64 h-screen bg-slate-900 text-slate-100 flex flex-col">
+    <aside className={`w-64 h-screen bg-slate-900 text-slate-100 flex flex-col ${className}`}>
       <div className="p-6 border-b border-slate-800">
         <h1 className="text-xl font-bold tracking-tight">Transportes Gallardo</h1>
       </div>
@@ -37,6 +42,7 @@ export function Sidebar() {
             <li key={item.name}>
               <NavLink
                 to={item.to}
+                onClick={onNavigate}
                 className={({ isActive }) =>
                   `flex items-center px-6 py-3 transition-colors ${
                     isActive
