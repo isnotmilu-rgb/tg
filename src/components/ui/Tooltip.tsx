@@ -7,10 +7,32 @@ interface TooltipProps {
 
 export function Tooltip({ text }: TooltipProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
   const containerRef = useRef<HTMLSpanElement | null>(null);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const updateInputMode = () => {
+      setIsTouchDevice(!mediaQuery.matches);
+      setIsOpen(false);
+    };
+
+    updateInputMode();
+
+    const onMediaChange = () => updateInputMode();
+    mediaQuery.addEventListener('change', onMediaChange);
+
+    return () => {
+      mediaQuery.removeEventListener('change', onMediaChange);
+    };
+  }, []);
+
+  useEffect(() => {
     const handleOutside = (event: MouseEvent | TouchEvent) => {
+      if (!isTouchDevice || !isOpen) {
+        return;
+      }
+
       if (!containerRef.current) {
         return;
       }
@@ -36,7 +58,7 @@ export function Tooltip({ text }: TooltipProps) {
       document.removeEventListener('touchstart', handleOutside);
       document.removeEventListener('keydown', handleEscape);
     };
-  }, []);
+  }, [isOpen, isTouchDevice]);
 
   return (
     <span ref={containerRef} className="relative inline-flex items-center">
@@ -44,7 +66,21 @@ export function Tooltip({ text }: TooltipProps) {
         type="button"
         aria-label="Mostrar ayuda"
         aria-expanded={isOpen}
-        onClick={() => setIsOpen((prev) => !prev)}
+        onMouseEnter={() => {
+          if (!isTouchDevice) {
+            setIsOpen(true);
+          }
+        }}
+        onMouseLeave={() => {
+          if (!isTouchDevice) {
+            setIsOpen(false);
+          }
+        }}
+        onClick={() => {
+          if (isTouchDevice) {
+            setIsOpen((prev) => !prev);
+          }
+        }}
         className="inline-flex items-center justify-center rounded-full p-0.5 text-slate-400 transition-colors hover:text-slate-600"
       >
         <Info className="h-4 w-4" />

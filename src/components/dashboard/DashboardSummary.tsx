@@ -1,4 +1,4 @@
-import { Activity, TrendingUp, TrendingDown, Truck } from 'lucide-react';
+import { Activity, TrendingUp, TrendingDown } from 'lucide-react';
 import { KPIStats, Viaje } from '../../types';
 import { TravelTable } from '../tables/TravelTable';
 import { Tooltip } from '../ui/Tooltip';
@@ -19,11 +19,8 @@ export function DashboardSummary({ stats, viajesRecientes }: DashboardSummaryPro
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-[#0f172a] p-6 rounded-2xl shadow-md border border-slate-800 text-white relative">
-          <div className="absolute -right-6 -top-6 text-slate-800/50">
-            <Truck className="w-32 h-32" />
-          </div>
-          <div className="relative z-10">
+        <div className="bg-[#0f172a] p-6 rounded-2xl shadow-md border border-slate-800 text-white">
+          <div>
             <div className="flex justify-between items-start mb-4">
               <div className="flex items-center gap-1.5">
                 <p className="text-sm font-medium text-slate-400">Viajes Activos</p>

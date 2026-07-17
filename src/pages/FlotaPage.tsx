@@ -573,26 +573,26 @@ export function FlotaPage() {
             <h4 className="font-semibold text-slate-900">Facturas Vinculadas</h4>
 
             {isAdmin && (
-              <form onSubmit={handleFacturaSubmit} className="grid grid-cols-1 md:grid-cols-6 gap-2 p-3 bg-slate-50 rounded-xl border border-slate-200 max-w-full overflow-hidden">
-                <div className="relative min-w-0">
+              <form onSubmit={handleFacturaSubmit} className="grid w-full max-w-full grid-cols-1 md:grid-cols-6 gap-2 p-3 bg-slate-50 rounded-xl border border-slate-200 overflow-hidden">
+                <div className="relative min-w-0 w-full max-w-full">
                   <HelpTooltip text="Numero de folio de la factura emitido por el SII" />
                   <input
                     value={facturaForm.folio}
                     onChange={(event) => setFacturaForm((prev) => ({ ...prev, folio: event.target.value }))}
                     placeholder="Folio"
-                    className="w-full border border-slate-300 rounded-lg px-3 py-2 pr-8 text-sm outline-none focus:border-slate-900"
+                    className="w-full max-w-full box-border border border-slate-300 rounded-lg px-3 py-2 pr-8 text-sm outline-none focus:border-slate-900"
                   />
                 </div>
-                <div className="relative min-w-0">
+                <div className="relative min-w-0 w-full max-w-full">
                   <HelpTooltip text="Fecha de emision de la factura segun el documento SII" />
                   <input
                     type="date"
                     value={facturaForm.fecha}
                     onChange={(event) => setFacturaForm((prev) => ({ ...prev, fecha: event.target.value }))}
-                    className="w-full border border-slate-300 rounded-lg px-3 py-2 pr-8 text-sm outline-none focus:border-slate-900"
+                    className="w-full max-w-full box-border border border-slate-300 rounded-lg px-3 py-2 pr-8 text-sm outline-none focus:border-slate-900"
                   />
                 </div>
-                <div className="relative min-w-0">
+                <div className="relative min-w-0 w-full max-w-full">
                   <HelpTooltip text="Monto total bruto de la factura en pesos chilenos" />
                   <input
                     type="number"
@@ -600,21 +600,21 @@ export function FlotaPage() {
                     min={1}
                     onChange={(event) => setFacturaForm((prev) => ({ ...prev, monto: Number(event.target.value) || 0 }))}
                     placeholder="Monto ($)"
-                    className="w-full border border-slate-300 rounded-lg px-3 py-2 pr-8 text-sm outline-none focus:border-slate-900"
+                    className="w-full max-w-full box-border border border-slate-300 rounded-lg px-3 py-2 pr-8 text-sm outline-none focus:border-slate-900"
                   />
                 </div>
-                <div className="relative min-w-0">
+                <div className="relative min-w-0 w-full max-w-full">
                   <HelpTooltip text="Breve detalle de los servicios o productos facturados" />
                   <input
                     value={facturaForm.descripcion}
                     onChange={(event) => setFacturaForm((prev) => ({ ...prev, descripcion: event.target.value }))}
                     placeholder="Descripcion"
-                    className="w-full border border-slate-300 rounded-lg px-3 py-2 pr-8 text-sm outline-none focus:border-slate-900"
+                    className="w-full max-w-full box-border border border-slate-300 rounded-lg px-3 py-2 pr-8 text-sm outline-none focus:border-slate-900"
                   />
                 </div>
-                <div className="relative min-w-0">
+                <div className="relative min-w-0 w-full max-w-full">
                   <HelpTooltip text="Haz clic para subir el archivo PDF descargado desde el portal del SII" />
-                  <label className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-600 cursor-pointer hover:border-slate-400 transition-colors flex items-center justify-center gap-2 whitespace-nowrap">
+                  <label className="w-full max-w-full box-border border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-600 cursor-pointer hover:border-slate-400 transition-colors flex items-center justify-center gap-2 whitespace-nowrap">
                     <Paperclip className="w-4 h-4" />
                     {facturaPdfFile ? 'PDF cargado' : 'PDF SII'}
                     <input
@@ -628,7 +628,7 @@ export function FlotaPage() {
                     />
                   </label>
                 </div>
-                <button type="submit" className="w-full bg-emerald-600 text-white rounded-lg px-3 py-2 text-sm font-medium">
+                <button type="submit" className="w-full max-w-full box-border bg-emerald-600 text-white rounded-lg px-3 py-2 text-sm font-medium">
                   {editingFacturaId ? 'Guardar' : 'Agregar'}
                 </button>
               </form>
