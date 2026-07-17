@@ -8,6 +8,7 @@ import { RequireAuth } from './auth/RequireAuth'
 import { ChoferesPage } from './pages/ChoferesPage'
 import { ConfiguracionPage } from './pages/ConfiguracionPage'
 import { DashboardPage } from './pages/DashboardPage'
+import { FacturasPage } from './pages/FacturasPage'
 import { FlotaPage } from './pages/FlotaPage'
 import { LoginPage } from './pages/LoginPage'
 import { NuevoViajePage } from './pages/NuevoViajePage'
@@ -27,6 +28,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               <Route index element={<DashboardPage />} />
               <Route path="viajes" element={<ViajesPage />} />
               <Route path="flota" element={<FlotaPage />} />
+              <Route path="facturas" element={<FacturasPage />} />
 
               <Route element={<RequireAdmin />}>
                 <Route path="viajes/nuevo" element={<NuevoViajePage />} />

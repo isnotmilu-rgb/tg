@@ -8,6 +8,7 @@ const TITLES: Record<string, string> = {
   '/app/viajes': 'Viajes',
   '/app/viajes/nuevo': 'Registrar Nuevo Viaje',
   '/app/flota': 'Flota',
+  '/app/facturas': 'Facturas',
   '/app/choferes': 'Choferes',
   '/app/configuracion': 'Configuracion',
 };

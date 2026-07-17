@@ -1,4 +1,4 @@
-import { LayoutDashboard, Truck, Users, FileText, Settings } from 'lucide-react';
+import { LayoutDashboard, Truck, Users, FileText, ReceiptText, Settings } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
 
@@ -15,6 +15,7 @@ export function Sidebar({ className = '', onNavigate }: SidebarProps) {
     { name: 'Dashboard', icon: LayoutDashboard, to: '/app' },
     { name: 'Viajes', icon: FileText, to: '/app/viajes' },
     { name: 'Flota', icon: Truck, to: '/app/flota' },
+    { name: 'Facturas', icon: ReceiptText, to: '/app/facturas' },
     ...(isAdmin
       ? [
           { name: 'Choferes', icon: Users, to: '/app/choferes' },
