@@ -7,13 +7,13 @@ export function Sidebar() {
   const isAdmin = session?.role === 'admin';
 
   const navItems = [
-    { name: 'Dashboard', icon: LayoutDashboard, to: '/' },
-    { name: 'Viajes', icon: FileText, to: '/viajes' },
-    { name: 'Flota', icon: Truck, to: '/flota' },
+    { name: 'Dashboard', icon: LayoutDashboard, to: '/app' },
+    { name: 'Viajes', icon: FileText, to: '/app/viajes' },
+    { name: 'Flota', icon: Truck, to: '/app/flota' },
     ...(isAdmin
       ? [
-          { name: 'Choferes', icon: Users, to: '/choferes' },
-          { name: 'Configuracion', icon: Settings, to: '/configuracion' },
+          { name: 'Choferes', icon: Users, to: '/app/choferes' },
+          { name: 'Configuracion', icon: Settings, to: '/app/configuracion' },
         ]
       : []),
   ];

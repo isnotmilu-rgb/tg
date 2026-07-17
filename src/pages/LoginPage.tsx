@@ -22,7 +22,7 @@ export function LoginPage() {
   }
 
   if (session) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/app" replace />;
   }
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -33,11 +33,11 @@ export function LoginPage() {
       const ok = loginAsAdmin(password);
 
       if (!ok) {
-        setLoginError('Contrasena de administrador incorrecta.');
+        setLoginError('Contraseña de administrador incorrecta.');
         return;
       }
 
-      navigate('/');
+      navigate('/app');
       return;
     }
 
@@ -54,14 +54,14 @@ export function LoginPage() {
     }
 
     loginAsChofer({ choferId: chofer.id_chofer, choferNombre: chofer.nombre_completo });
-    navigate('/viajes');
+    navigate('/app/viajes');
   };
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4">
       <div className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-6 md:p-8 space-y-6">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">TG Logistics</h1>
+          <h1 className="text-3xl font-bold tracking-tight">TG</h1>
           <p className="text-slate-400 mt-1">Acceso al sistema operativo de Transportes Gallardo.</p>
         </div>
 
@@ -89,12 +89,12 @@ export function LoginPage() {
         <form onSubmit={onSubmit} className="space-y-4">
           {mode === 'admin' && (
             <div>
-              <label className="block text-sm font-medium mb-1">Contrasena maestra</label>
+              <label className="block text-sm font-medium mb-1">Contraseña maestra</label>
               <input
                 type="password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
-                placeholder="Ingresa contrasena"
+                placeholder="Ingresa contraseña"
                 className="w-full border border-slate-700 bg-slate-950 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
               />
             </div>

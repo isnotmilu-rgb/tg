@@ -19,10 +19,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <AuthProvider>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<LoginPage />} />
 
           <Route element={<RequireAuth />}>
-            <Route path="/" element={<App />}>
+            <Route path="/app" element={<App />}>
               <Route index element={<DashboardPage />} />
               <Route path="viajes" element={<ViajesPage />} />
               <Route path="flota" element={<FlotaPage />} />
@@ -33,7 +34,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 <Route path="configuracion" element={<ConfiguracionPage />} />
               </Route>
 
-              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="*" element={<Navigate to="/app" replace />} />
             </Route>
           </Route>
 

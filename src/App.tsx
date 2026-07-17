@@ -3,17 +3,17 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { Sidebar } from './components/layout/Sidebar';
 
 const TITLES: Record<string, string> = {
-  '/': 'Dashboard',
-  '/viajes': 'Viajes',
-  '/viajes/nuevo': 'Registrar Nuevo Viaje',
-  '/flota': 'Flota',
-  '/choferes': 'Choferes',
-  '/configuracion': 'Configuracion',
+  '/app': 'Dashboard',
+  '/app/viajes': 'Viajes',
+  '/app/viajes/nuevo': 'Registrar Nuevo Viaje',
+  '/app/flota': 'Flota',
+  '/app/choferes': 'Choferes',
+  '/app/configuracion': 'Configuracion',
 };
 
 export default function App() {
   const location = useLocation();
-  const title = useMemo(() => TITLES[location.pathname] ?? 'TG Logistics', [location.pathname]);
+  const title = useMemo(() => TITLES[location.pathname] ?? 'Transportes Gallardo', [location.pathname]);
 
   return (
     <div className="flex min-h-screen bg-slate-50 font-sans">
@@ -25,7 +25,7 @@ export default function App() {
         <header className="md:hidden bg-[#0f172a] text-white p-4 sticky top-0 z-20 shadow-md">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-xl font-bold tracking-tight">TG Logistics</h1>
+              <h1 className="text-xl font-bold tracking-tight">TG</h1>
               <p className="text-slate-300 text-sm">{title}</p>
             </div>
           </div>

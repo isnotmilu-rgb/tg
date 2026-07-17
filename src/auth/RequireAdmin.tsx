@@ -9,7 +9,7 @@ export function RequireAdmin() {
   }
 
   if (session.role !== 'admin') {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/app/viajes" replace />;
   }
 
   return <Outlet />;

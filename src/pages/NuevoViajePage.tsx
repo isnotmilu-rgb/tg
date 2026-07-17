@@ -19,8 +19,8 @@ export function NuevoViajePage() {
       ciudades={ciudades}
       camiones={camiones}
       choferes={choferes}
-      onSubmitSuccess={() => navigate('/viajes')}
-      onCancel={() => navigate('/viajes')}
+      onSubmitSuccess={() => navigate('/app/viajes')}
+      onCancel={() => navigate('/app/viajes')}
     />
   );
 }
