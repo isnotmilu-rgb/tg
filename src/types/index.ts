@@ -47,6 +47,15 @@ export interface Viaje {
   monto_gasto: number;
   saldo_a_rendir: number; // dinero_recibido - monto_gasto
   estado: 'programado' | 'en_curso' | 'completado' | 'cancelado';
+  camiones?: {
+    patente: string;
+    marca: string;
+    modelo: string;
+  } | {
+    patente: string;
+    marca: string;
+    modelo: string;
+  }[] | null;
 }
 
 export interface KPIStats {

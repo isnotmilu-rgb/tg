@@ -13,7 +13,7 @@ export function useViajes() {
 
     const { data, error: fetchError } = await supabase
       .from('viajes')
-      .select('*')
+      .select('*, camiones(patente, marca, modelo)')
       .order('fecha', { ascending: false });
 
     if (fetchError) {
