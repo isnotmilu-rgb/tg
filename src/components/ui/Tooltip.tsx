@@ -86,7 +86,7 @@ export function Tooltip({ text }: TooltipProps) {
         <Info className="h-4 w-4" />
       </button>
       {isOpen && (
-        <span className="absolute left-0 top-full z-[80] mt-2 w-64 max-w-[calc(100vw-2rem)] rounded-md border border-slate-200 bg-slate-900 px-2.5 py-1.5 text-xs leading-snug text-white shadow-xl">
+        <span className="absolute left-0 top-full z-[100] mt-2 w-[200px] max-w-xs rounded-md border border-slate-200 bg-slate-900 px-2.5 py-1.5 text-xs leading-snug text-white shadow-xl whitespace-normal break-words">
           {text}
         </span>
       )}
