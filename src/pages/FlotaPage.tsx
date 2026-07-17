@@ -1,5 +1,5 @@
 import { FormEvent, useMemo, useState } from 'react';
-import { CircleHelp, ClipboardList, FileDown, Fuel, Paperclip, Pencil, Trash2, Truck } from 'lucide-react';
+import { ChevronDown, CircleHelp, ClipboardList, FileDown, Fuel, Paperclip, Pencil, Trash2, Truck } from 'lucide-react';
 import { useAuth } from '../auth/AuthContext';
 import { useCatalogos } from '../hooks/useCatalogos';
 import { useFacturas } from '../hooks/useFacturas';
@@ -74,6 +74,7 @@ export function FlotaPage() {
 
   const [camionSeleccionado, setCamionSeleccionado] = useState('');
   const [camionForm, setCamionForm] = useState<CamionFormState>(EMPTY_CAMION);
+  const [isCamionFormOpen, setIsCamionFormOpen] = useState(false);
   const [editingCamionId, setEditingCamionId] = useState<string | null>(null);
   const [facturaForm, setFacturaForm] = useState<FacturaFormState>(EMPTY_FACTURA);
   const [facturaPdfFile, setFacturaPdfFile] = useState<File | null>(null);
@@ -170,6 +171,7 @@ export function FlotaPage() {
 
       setCamionForm(EMPTY_CAMION);
       setEditingCamionId(null);
+      setIsCamionFormOpen(false);
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : 'No se pudo guardar el camion.');
     }
@@ -189,7 +191,17 @@ export function FlotaPage() {
       capacidad_toneladas: camion.capacidad_toneladas,
       chofer_id: camion.chofer_id ?? '',
     });
+    setIsCamionFormOpen(true);
     setEditingCamionId(idCamion);
+  };
+
+  const handleToggleCamionForm = () => {
+    if (isCamionFormOpen) {
+      setEditingCamionId(null);
+      setCamionForm(EMPTY_CAMION);
+    }
+
+    setIsCamionFormOpen((prev) => !prev);
   };
 
   const handleRetirarCamion = async (idCamion: string) => {
@@ -343,7 +355,7 @@ export function FlotaPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-full overflow-x-hidden">
       <div>
         <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Flota</h2>
         <p className="text-slate-500 text-sm mt-1">
@@ -355,84 +367,104 @@ export function FlotaPage() {
 
       {submitError && <p className="text-sm font-medium text-red-600">{submitError}</p>}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <section className="bg-white border border-slate-200 rounded-2xl shadow-sm p-4 space-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-full overflow-hidden">
+        <section className="bg-white border border-slate-200 rounded-2xl shadow-sm p-4 space-y-4 max-w-full overflow-hidden">
           <h3 className="font-semibold text-slate-900">Camiones TG</h3>
 
           {isAdmin && (
-            <form onSubmit={handleCamionSubmit} className="space-y-2 p-3 bg-slate-50 rounded-xl border border-slate-200">
-              <input
-                value={camionForm.patente}
-                onChange={(event) => setCamionForm((prev) => ({ ...prev, patente: event.target.value }))}
-                placeholder="Patente"
-                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-slate-900"
-              />
-              <input
-                value={camionForm.marca}
-                onChange={(event) => setCamionForm((prev) => ({ ...prev, marca: event.target.value }))}
-                placeholder="Marca"
-                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-slate-900"
-              />
-              <input
-                value={camionForm.modelo}
-                onChange={(event) => setCamionForm((prev) => ({ ...prev, modelo: event.target.value }))}
-                placeholder="Modelo"
-                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-slate-900"
-              />
-              <label className="block text-xs font-medium text-slate-600">
-                Chofer Asignado
-              </label>
-              <select
-                value={camionForm.chofer_id}
-                onChange={(event) =>
-                  setCamionForm((prev) => ({
-                    ...prev,
-                    chofer_id: event.target.value,
-                  }))
-                }
-                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-slate-900 bg-white"
+            <div className="space-y-2">
+              <button
+                type="button"
+                onClick={handleToggleCamionForm}
+                className="w-full border border-slate-200 bg-slate-50 hover:bg-slate-100 rounded-xl px-4 py-3 text-left flex items-center justify-between transition-colors"
               >
-                <option value="">Sin asignar</option>
-                {choferes.map((chofer) => (
-                  <option key={chofer.id_chofer} value={chofer.id_chofer}>
-                    {chofer.nombre_completo}
-                  </option>
-                ))}
-              </select>
-              <label className="block text-xs font-medium text-slate-600">
-                Capacidad Estanque (L)
-              </label>
-              <input
-                type="number"
-                value={camionForm.capacidad_toneladas === 0 ? '' : camionForm.capacidad_toneladas}
-                min={1}
-                onChange={(event) =>
-                  setCamionForm((prev) => ({
-                    ...prev,
-                    capacidad_toneladas: Number(event.target.value) || 0,
-                  }))
-                }
-                placeholder="Ej: 450"
-                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-slate-900"
-              />
-              <div className="flex gap-2">
-                <button type="submit" className="flex-1 bg-slate-900 text-white rounded-lg py-2 text-sm font-medium">
-                  {editingCamionId ? 'Guardar cambios' : 'Agregar camion'}
-                </button>
-                {editingCamionId && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setEditingCamionId(null);
-                      setCamionForm(EMPTY_CAMION);
-                    }}
-                    className="px-3 py-2 text-sm rounded-lg border border-slate-300"
-                  >
-                    Cancelar
-                  </button>
-                )}
+                <span className="font-medium text-slate-800">
+                  {editingCamionId ? 'Editar camion' : 'Agregar nuevo camion'}
+                </span>
+                <ChevronDown
+                  className={`w-4 h-4 text-slate-500 transition-transform duration-200 ${
+                    isCamionFormOpen ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+
+              <div
+                className={`grid transition-all duration-300 ease-in-out ${
+                  isCamionFormOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                }`}
+              >
+                <div className="overflow-hidden">
+                  <form onSubmit={handleCamionSubmit} className="space-y-2 p-3 bg-slate-50 rounded-xl border border-slate-200 mt-1">
+                    <input
+                      value={camionForm.patente}
+                      onChange={(event) => setCamionForm((prev) => ({ ...prev, patente: event.target.value }))}
+                      placeholder="Patente"
+                      className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-slate-900"
+                    />
+                    <input
+                      value={camionForm.marca}
+                      onChange={(event) => setCamionForm((prev) => ({ ...prev, marca: event.target.value }))}
+                      placeholder="Marca"
+                      className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-slate-900"
+                    />
+                    <input
+                      value={camionForm.modelo}
+                      onChange={(event) => setCamionForm((prev) => ({ ...prev, modelo: event.target.value }))}
+                      placeholder="Modelo"
+                      className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-slate-900"
+                    />
+                    <label className="block text-xs font-medium text-slate-600">
+                      Chofer Asignado
+                    </label>
+                    <select
+                      value={camionForm.chofer_id}
+                      onChange={(event) =>
+                        setCamionForm((prev) => ({
+                          ...prev,
+                          chofer_id: event.target.value,
+                        }))
+                      }
+                      className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-slate-900 bg-white"
+                    >
+                      <option value="">Sin asignar</option>
+                      {choferes.map((chofer) => (
+                        <option key={chofer.id_chofer} value={chofer.id_chofer}>
+                          {chofer.nombre_completo}
+                        </option>
+                      ))}
+                    </select>
+                    <label className="block text-xs font-medium text-slate-600">
+                      Capacidad Estanque (L)
+                    </label>
+                    <input
+                      type="number"
+                      value={camionForm.capacidad_toneladas === 0 ? '' : camionForm.capacidad_toneladas}
+                      min={1}
+                      onChange={(event) =>
+                        setCamionForm((prev) => ({
+                          ...prev,
+                          capacidad_toneladas: Number(event.target.value) || 0,
+                        }))
+                      }
+                      placeholder="Ej: 450"
+                      className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-slate-900"
+                    />
+                    <div className="flex gap-2">
+                      <button type="submit" className="flex-1 bg-slate-900 text-white rounded-lg py-2 text-sm font-medium">
+                        {editingCamionId ? 'Guardar cambios' : 'Agregar camion'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleToggleCamionForm}
+                        className="px-3 py-2 text-sm rounded-lg border border-slate-300"
+                      >
+                        {editingCamionId ? 'Cancelar' : 'Ocultar'}
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
-            </form>
+            </div>
           )}
 
           <div className="space-y-2 max-h-[30rem] overflow-y-auto">
@@ -485,7 +517,7 @@ export function FlotaPage() {
           </div>
         </section>
 
-        <section className="lg:col-span-2 bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-6">
+        <section className="lg:col-span-2 bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-6 max-w-full overflow-hidden">
           <div>
             <h3 className="text-xl font-bold text-slate-900">Ficha Tecnica del Camion {camionSeleccionadoResuelto || '-'}</h3>
             <p className="text-sm text-slate-500">Historial operativo y financiero por patente.</p>
@@ -541,8 +573,8 @@ export function FlotaPage() {
             <h4 className="font-semibold text-slate-900">Facturas Vinculadas</h4>
 
             {isAdmin && (
-              <form onSubmit={handleFacturaSubmit} className="grid grid-cols-1 md:grid-cols-6 gap-2 p-3 bg-slate-50 rounded-xl border border-slate-200">
-                <div className="relative">
+              <form onSubmit={handleFacturaSubmit} className="grid grid-cols-1 md:grid-cols-6 gap-2 p-3 bg-slate-50 rounded-xl border border-slate-200 max-w-full overflow-hidden">
+                <div className="relative min-w-0">
                   <HelpTooltip text="Numero de folio de la factura emitido por el SII" />
                   <input
                     value={facturaForm.folio}
@@ -551,7 +583,7 @@ export function FlotaPage() {
                     className="w-full border border-slate-300 rounded-lg px-3 py-2 pr-8 text-sm outline-none focus:border-slate-900"
                   />
                 </div>
-                <div className="relative">
+                <div className="relative min-w-0">
                   <HelpTooltip text="Fecha de emision de la factura segun el documento SII" />
                   <input
                     type="date"
@@ -560,7 +592,7 @@ export function FlotaPage() {
                     className="w-full border border-slate-300 rounded-lg px-3 py-2 pr-8 text-sm outline-none focus:border-slate-900"
                   />
                 </div>
-                <div className="relative">
+                <div className="relative min-w-0">
                   <HelpTooltip text="Monto total bruto de la factura en pesos chilenos" />
                   <input
                     type="number"
@@ -571,7 +603,7 @@ export function FlotaPage() {
                     className="w-full border border-slate-300 rounded-lg px-3 py-2 pr-8 text-sm outline-none focus:border-slate-900"
                   />
                 </div>
-                <div className="relative">
+                <div className="relative min-w-0">
                   <HelpTooltip text="Breve detalle de los servicios o productos facturados" />
                   <input
                     value={facturaForm.descripcion}
@@ -580,9 +612,9 @@ export function FlotaPage() {
                     className="w-full border border-slate-300 rounded-lg px-3 py-2 pr-8 text-sm outline-none focus:border-slate-900"
                   />
                 </div>
-                <div className="relative">
+                <div className="relative min-w-0">
                   <HelpTooltip text="Haz clic para subir el archivo PDF descargado desde el portal del SII" />
-                  <label className="border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-600 cursor-pointer hover:border-slate-400 transition-colors flex items-center justify-center gap-2 whitespace-nowrap">
+                  <label className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-600 cursor-pointer hover:border-slate-400 transition-colors flex items-center justify-center gap-2 whitespace-nowrap">
                     <Paperclip className="w-4 h-4" />
                     {facturaPdfFile ? 'PDF cargado' : 'PDF SII'}
                     <input
@@ -596,7 +628,7 @@ export function FlotaPage() {
                     />
                   </label>
                 </div>
-                <button type="submit" className="bg-emerald-600 text-white rounded-lg px-3 py-2 text-sm font-medium">
+                <button type="submit" className="w-full bg-emerald-600 text-white rounded-lg px-3 py-2 text-sm font-medium">
                   {editingFacturaId ? 'Guardar' : 'Agregar'}
                 </button>
               </form>
@@ -608,11 +640,11 @@ export function FlotaPage() {
                   key={factura.id_factura}
                   className="border border-slate-200 rounded-xl p-3 bg-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-2"
                 >
-                  <div>
-                    <p className="font-medium text-slate-800">{factura.folio} - {factura.descripcion}</p>
+                  <div className="min-w-0">
+                    <p className="font-medium text-slate-800 break-words">{factura.folio} - {factura.descripcion}</p>
                     <p className="text-xs text-slate-500">{new Date(factura.fecha).toLocaleDateString('es-CL')}</p>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 flex-wrap">
                     <p className="font-bold text-slate-900">${factura.monto.toLocaleString('es-CL')}</p>
                     {factura.archivo_url ? (
                       <a

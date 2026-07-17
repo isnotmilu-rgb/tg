@@ -19,15 +19,16 @@ export function DashboardSummary({ stats, viajesRecientes }: DashboardSummaryPro
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-[#0f172a] p-6 rounded-2xl shadow-md border border-slate-800 text-white relative overflow-hidden">
+        <div className="bg-[#0f172a] p-6 rounded-2xl shadow-md border border-slate-800 text-white relative">
           <div className="absolute -right-6 -top-6 text-slate-800/50">
             <Truck className="w-32 h-32" />
           </div>
           <div className="relative z-10">
             <div className="flex justify-between items-start mb-4">
-              <Tooltip text="Viajes que se encuentran actualmente en ruta.">
+              <div className="flex items-center gap-1.5">
                 <p className="text-sm font-medium text-slate-400">Viajes Activos</p>
-              </Tooltip>
+                <Tooltip text="Viajes que se encuentran actualmente en ruta." />
+              </div>
               <div className="p-2 bg-slate-800 rounded-xl">
                 <Activity className="w-5 h-5 text-blue-400" />
               </div>
@@ -38,9 +39,10 @@ export function DashboardSummary({ stats, viajesRecientes }: DashboardSummaryPro
 
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
           <div className="flex justify-between items-start mb-4">
-            <Tooltip text="Total de dinero facturado en el mes actual.">
+            <div className="flex items-center gap-1.5">
               <p className="text-sm font-medium text-slate-500">Ingresos del Mes</p>
-            </Tooltip>
+              <Tooltip text="Total de dinero facturado en el mes actual." />
+            </div>
             <div className="p-2 bg-emerald-50 rounded-xl">
               <TrendingUp className="w-5 h-5 text-emerald-600" />
             </div>
@@ -54,9 +56,10 @@ export function DashboardSummary({ stats, viajesRecientes }: DashboardSummaryPro
 
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
           <div className="flex justify-between items-start mb-4">
-            <Tooltip text="Relación entre gastos operativos y rendimiento de los camiones.">
+            <div className="flex items-center gap-1.5">
               <p className="text-sm font-medium text-slate-500">Eficiencia de Flota (Gastos)</p>
-            </Tooltip>
+              <Tooltip text="Relación entre gastos operativos y rendimiento de los camiones." />
+            </div>
             <div className="p-2 bg-red-50 rounded-xl">
               <TrendingDown className="w-5 h-5 text-red-600" />
             </div>
