@@ -1,0 +1,10 @@
+{
+  "description": "This web application streamlines travel management for logistics companies, offering features like a responsive dashboard, forms, and data tables for efficient operations.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
